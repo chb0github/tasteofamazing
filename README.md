@@ -1,6 +1,9 @@
 Spring Data Rest + Spring Security
 --
 
+For a detailed breakdown of the schema and a [step-by-step guide](http://krams915.blogspot.com/2011/01/spring-security-3-full-acl-tutorial_30.html)
+to the schema and setupe
+
 This repo demonstrates the following things:
 
 1. Fully functioning `spring-security` integration with a mysql database.
