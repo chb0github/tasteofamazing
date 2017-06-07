@@ -18,6 +18,7 @@ package org.bongiorno.sdrss.domain.security;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.hateoas.Identifiable;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
@@ -33,7 +34,7 @@ import static java.util.stream.Collectors.toSet;
 @NoArgsConstructor
 @EqualsAndHashCode
 @Table(name = "users")
-public class User implements UserDetails{
+public class User implements UserDetails, Identifiable<String>{
 
     @Id
     @NotNull
@@ -74,5 +75,10 @@ public class User implements UserDetails{
     @Override
     public boolean isEnabled() {
         return enabled;
+    }
+
+    @Override
+    public String getId() {
+        return username;
     }
 }

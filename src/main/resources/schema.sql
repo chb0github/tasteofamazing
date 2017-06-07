@@ -3,9 +3,11 @@ create SCHEMA IF NOT EXISTS SDR;
 use SDR;
 
 CREATE TABLE users (
+--   id BIGINT NOT NULL  PRIMARY KEY AUTO_INCREMENT,
   username VARCHAR(50) NOT NULL PRIMARY KEY,
   password VARCHAR(50) NOT NULL,
   enabled BOOLEAN NOT NULL
+--   UNIQUE (username)
 );
 CREATE TABLE Roles (
   name VARCHAR(50) NOT NULL PRIMARY KEY
@@ -107,9 +109,10 @@ INSERT INTO `acl_sid` (`id`, `principal`, `sid`) VALUES
 --
 
 INSERT INTO `acl_class` (`id`, `class`) VALUES
-  (1, 'Candidate'),
-  (2, 'Form'),
-  (3, 'Report');
+  (1, 'com.sterling.platform.domain.resources.Candidate'),
+  (2, 'com.sterling.platform.domain.resources.Form'),
+  (3, 'com.sterling.platform.domain.resources.Report'),
+  (4, 'com.sterling.platform.domain.security.User');
 
 --
 -- Dumping data for table `acl_object_identity`
@@ -124,7 +127,10 @@ INSERT INTO `acl_object_identity` (`id`, `object_id_class`, `object_id_identity`
   (6, 2, 3, NULL, 1, 0),
   (7, 3, 1, NULL, 1, 0),
   (8, 3, 2, NULL, 1, 0),
-  (9, 3, 3, NULL, 1, 0);
+  (9, 3, 3, NULL, 1, 0),
+  (10, 4, 1, NULL, 1, 0),
+  (11, 4, 2, NULL, 2, 0),
+  (12, 4, 3, NULL, 3, 0);
 
 --
 -- Dumping data for table `acl_entry`
@@ -160,7 +166,9 @@ INSERT INTO `acl_entry` (`id`, `acl_object_identity`, `ace_order`, `sid`, `mask`
   (39, 9, 4, 2, 2, 1, 1, 1),
   (40, 7, 5, 3, 1, 1, 1, 1),
   (41, 8, 5, 3, 1, 1, 1, 1),
-  (42, 9, 5, 3, 1, 1, 1, 1);
+  (43, 10, 1, 1, 2, 1, 1, 1),
+  (44, 11, 1, 2, 2, 1, 1, 1),
+  (45, 12, 1, 3, 2, 1, 1, 1);
 
 
 --
