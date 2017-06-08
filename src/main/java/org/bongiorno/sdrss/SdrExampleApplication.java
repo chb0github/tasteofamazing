@@ -1,6 +1,7 @@
 package org.bongiorno.sdrss;
 
 import lombok.RequiredArgsConstructor;
+import org.bongiorno.sdrss.domain.resources.Candidate;
 import org.bongiorno.sdrss.domain.security.*;
 import org.bongiorno.sdrss.repositories.security.*;
 import org.reflections.Reflections;
@@ -8,8 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.data.rest.core.annotation.HandleBeforeCreate;
+import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
 import org.springframework.data.rest.core.event.AbstractRepositoryEventListener;
 import org.springframework.data.rest.core.event.ValidatingRepositoryEventListener;
 import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurerAdapter;
@@ -54,33 +58,44 @@ public class SdrExampleApplication {
 
     }
 
+
+    @Component
+    @RepositoryEventHandler
+    public static class CanidateEventHandler {
+        // 2 different ways to handle events
+        @HandleBeforeCreate
+        public void handleBeforeCreate(Candidate c) {
+            System.out.println(c);
+        }
+    }
+    // 2 different ways to handle events
     @Component
     @RequiredArgsConstructor(onConstructor = @__(@Autowired))
-    public static class PublishOnCreateEventListener extends AbstractRepositoryEventListener {
+    public static class PublishOnCreateEventListener extends AbstractRepositoryEventListener<Identifiable<Long>> {
 
         private final AclObjectIdentityRepository objects;
         private final AclEntryRepository aclEntries;
 
         @Override
-        protected void onBeforeSave(Object entity) {
+        protected void onBeforeSave(Identifiable<Long> entity) {
             System.out.println("*********Saving " + entity);
         }
 
         @Override
-        protected void onAfterCreate(Object entity) {
+        protected void onAfterCreate(Identifiable<Long> entity) {
             System.out.format("*********Created %s%n", entity);
         }
 
         @Override
-        protected void onBeforeCreate(Object entity) {
+        protected void onBeforeCreate(Identifiable<Long> entity) {
             System.out.println(entity);
         }
 
         @Override
-        protected void onAfterSave(Object entity) {
+        protected void onAfterSave(Identifiable<Long> entity) {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             AclSid aclSid = new AclSid(true, authentication.getPrincipal() + "");
-            AclObjectIdentity objectEntry = objects.save(new AclObjectIdentity(entity.getClass(), ((Identifiable<Long>) entity).getId(), aclSid));
+            AclObjectIdentity objectEntry = objects.save(new AclObjectIdentity(entity.getClass(), entity.getId(), aclSid));
 
             aclEntries.save(new AclEntry(objectEntry,aclSid, READ,WRITE));
         }

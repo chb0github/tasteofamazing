@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.stream.Stream;
+import org.springframework.hateoas.Identifiable;
 
 @Getter
 @Entity
@@ -15,11 +16,12 @@ import java.util.stream.Stream;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode
-public class AclEntry {
+public class AclEntry implements Identifiable<Long> {
 
     @Id
     @GeneratedValue
     private Long id;
+
     @NotNull
     @OneToOne
     private AclObjectIdentity aclObjectIdentity;

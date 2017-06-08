@@ -6,13 +6,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import org.springframework.hateoas.Identifiable;
 
 @Getter
 @Entity
 @NoArgsConstructor
 @EqualsAndHashCode
 @Table(name = "acl_class")
-public class AclClass {
+public class AclClass implements Identifiable<Long> {
 
     @Id
     @GeneratedValue

@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import org.springframework.hateoas.Identifiable;
 
 @Getter
 @Entity
@@ -14,7 +15,7 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode
-public class AclObjectIdentity {
+public class AclObjectIdentity implements Identifiable<Long> {
 
     @Id
     @GeneratedValue

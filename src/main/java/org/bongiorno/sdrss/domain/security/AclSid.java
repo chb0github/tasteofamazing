@@ -9,18 +9,21 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import org.springframework.hateoas.Identifiable;
 
 @Getter
 @Entity
 @Table(name = "acl_sid")
 @NoArgsConstructor
 @EqualsAndHashCode
-public class AclSid {
+public class AclSid implements Identifiable<Long> {
 
     @Id
     @GeneratedValue
     private Long id;
+
     private Boolean principal;
+
     private String sid;
 
 

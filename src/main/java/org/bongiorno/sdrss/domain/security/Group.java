@@ -22,6 +22,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.Collection;
+import org.springframework.hateoas.Identifiable;
 
 @Getter
 @Entity
@@ -29,7 +30,7 @@ import java.util.Collection;
 @NoArgsConstructor
 @EqualsAndHashCode
 @Table(name = "groups")
-public class Group {
+public class Group implements Identifiable<Long> {
 
     @Id
     @GeneratedValue
