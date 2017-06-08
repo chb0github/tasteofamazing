@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.bongiorno.sdrss.repositories
+package org.bongiorno.sdrss.repositories.resources
 
 import org.bongiorno.sdrss.domain.resources.Candidate
 import org.springframework.data.repository.CrudRepository

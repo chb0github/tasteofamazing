@@ -1,7 +1,7 @@
 package org.bongiorno.sdrss;
 
 import lombok.RequiredArgsConstructor;
-import org.bongiorno.sdrss.repositories.UserRepository;
+import org.bongiorno.sdrss.repositories.security.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.concurrent.ConcurrentMapCache;
 import org.springframework.context.annotation.Bean;
@@ -39,7 +39,7 @@ public class SecurityConfig {
 
 
     @Component
-    @RequiredArgsConstructor
+    @RequiredArgsConstructor(onConstructor = @__(@Autowired))
     public static class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
         private final SecurityExpressionHandler<FilterInvocation> webExpressionHandler;

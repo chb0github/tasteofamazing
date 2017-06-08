@@ -1,4 +1,4 @@
-package org.bongiorno.sdrss.repositories
+package org.bongiorno.sdrss.repositories.security
 
 import org.bongiorno.sdrss.domain.security.Group
 import org.springframework.data.repository.CrudRepository

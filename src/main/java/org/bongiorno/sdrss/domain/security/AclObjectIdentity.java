@@ -1,18 +1,3 @@
-/*
- * Copyright 2014 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package org.bongiorno.sdrss.domain.security;
 
 import lombok.AllArgsConstructor;
@@ -20,13 +5,12 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 @Getter
 @Entity
+@Table(name = "acl_object_identity")
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode
@@ -37,19 +21,33 @@ public class AclObjectIdentity {
     private Long id;
 
     @NotNull
-    private Long objectIdClass;
+    @Basic
+    @JoinColumn(name = "object_id_class", referencedColumnName = "id")
+    private String objectIdClass;
 
     @NotNull
     private Long objectIdIdentity;
 
-    private Long parentObject;
+    @OneToOne
+    private AclObjectIdentity parentObject;
 
     @NotNull
-    private Long ownerSid;
+    @OneToOne
+    private AclSid ownerSid;
 
     @NotNull
     private Boolean entriesInheriting;
 
-
-
+    /**
+     * Basically says
+     * @param aclSid this guys has access to
+     * @param classId this instance of
+     * @param aclClass this class
+     */
+    public AclObjectIdentity(Class<?> aclClass, Long classId, AclSid aclSid) {
+        this.objectIdClass = aclClass.getName();
+        this.objectIdIdentity = classId;
+        this.ownerSid = aclSid;
+        this.entriesInheriting = false;
+    }
 }

@@ -81,4 +81,9 @@ public class User implements UserDetails, Identifiable<String>{
     public String getId() {
         return username;
     }
+
+    @Override
+    public String toString() {
+        return username;
+    }
 }

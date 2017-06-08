@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.bongiorno.sdrss.repositories
+package org.bongiorno.sdrss.repositories.resources
 
 import org.bongiorno.sdrss.domain.resources.Report
 import org.springframework.data.repository.CrudRepository
@@ -21,11 +21,11 @@ import org.springframework.security.access.prepost.PostAuthorize
 import org.springframework.security.access.prepost.PostFilter
 
 
-interface ReportRepository : CrudRepository<Report, Long> {
+interface ReportRepository : org.springframework.data.repository.CrudRepository<Report, Long> {
 
-    @PostFilter("hasPermission(filterObject, 'READ')")
-    override fun findAll(): Iterable<Report>
+    @org.springframework.security.access.prepost.PostFilter("hasPermission(filterObject, 'READ')")
+    override fun findAll(): Iterable<org.bongiorno.sdrss.domain.resources.Report>
 
-    @PostAuthorize("hasPermission(returnObject, 'READ')")
-    override fun findOne(aLong: Long?): Report
+    @org.springframework.security.access.prepost.PostAuthorize("hasPermission(returnObject, 'READ')")
+    override fun findOne(aLong: Long?): org.bongiorno.sdrss.domain.resources.Report
 }
