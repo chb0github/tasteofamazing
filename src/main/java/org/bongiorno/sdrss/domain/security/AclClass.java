@@ -25,4 +25,9 @@ public class AclClass {
     public AclClass(Class<?> clazz) {
         this.clazz = clazz;
     }
+
+    @Override
+    public String toString() {
+        return clazz.getName();
+    }
 }

@@ -1,21 +1,32 @@
 package org.bongiorno.sdrss;
 
 import lombok.RequiredArgsConstructor;
+import org.bongiorno.sdrss.domain.security.*;
+import org.bongiorno.sdrss.repositories.security.*;
+import org.reflections.Reflections;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.data.rest.core.event.AbstractRepositoryEventListener;
 import org.springframework.data.rest.core.event.ValidatingRepositoryEventListener;
-import org.springframework.data.rest.webmvc.RepositoryRestHandlerMapping;
 import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurerAdapter;
+import org.springframework.hateoas.Identifiable;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Validator;
 
 import javax.annotation.PostConstruct;
-import java.util.Map;
+import javax.persistence.Entity;
+import java.util.Set;
+
+import static java.util.stream.Collectors.toSet;
+import static org.bongiorno.sdrss.domain.security.AclEntry.Permission.*;
 
 @SpringBootApplication
 @EnableAutoConfiguration
@@ -27,10 +38,10 @@ public class SdrExampleApplication {
     }
 
     @Configuration
+    @RequiredArgsConstructor
     public static class ValidationConfiguration extends RepositoryRestConfigurerAdapter {
 
-        @Autowired
-        private Validator jsr303Validator;
+        private final Validator jsr303Validator;
 
         @Override
         public void configureValidatingRepositoryEventListener(ValidatingRepositoryEventListener validatingListener) {
@@ -44,7 +55,12 @@ public class SdrExampleApplication {
     }
 
     @Component
+    @RequiredArgsConstructor(onConstructor = @__(@Autowired))
     public static class PublishOnCreateEventListener extends AbstractRepositoryEventListener {
+
+        private final AclObjectIdentityRepository objects;
+        private final AclEntryRepository aclEntries;
+
         @Override
         protected void onBeforeSave(Object entity) {
             System.out.println("*********Saving " + entity);
@@ -58,6 +74,15 @@ public class SdrExampleApplication {
         @Override
         protected void onBeforeCreate(Object entity) {
             System.out.println(entity);
+        }
+
+        @Override
+        protected void onAfterSave(Object entity) {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            AclSid aclSid = new AclSid(true, authentication.getPrincipal() + "");
+            AclObjectIdentity objectEntry = objects.save(new AclObjectIdentity(entity.getClass(), ((Identifiable<Long>) entity).getId(), aclSid));
+
+            aclEntries.save(new AclEntry(objectEntry,aclSid, READ,WRITE));
         }
     }
 

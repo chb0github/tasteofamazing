@@ -6,7 +6,7 @@ import org.springframework.data.repository.CrudRepository
 import org.springframework.security.access.prepost.PostAuthorize
 
 
-interface UserRepository : org.springframework.data.repository.CrudRepository<User, String> {
+interface UserRepository : CrudRepository<User, String> {
     @org.springframework.data.jpa.repository.Query("select o from User o where o.username = ?#{principal.username} or 1=?#{hasRole('ROLE_ADMIN') ? 1 : 0}")
     override fun findAll(): Iterable<org.bongiorno.sdrss.domain.security.User>
 

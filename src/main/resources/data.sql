@@ -1,13 +1,13 @@
 
-INSERT INTO users (username, password, enabled) VALUES ('christian', 'password', TRUE);
-INSERT INTO users (username, password, enabled) VALUES ('pj', 'password', TRUE);
-INSERT INTO users (username, password, enabled) VALUES ('mike', 'password', TRUE);
+INSERT INTO users (username, password, enabled) VALUES ('root', '$2a$13$qmJchqN/zb2y92AVTszXVubm90VD/c70FDUVhYJ/MqwV6wsZntJhG', TRUE);
+INSERT INTO users (username, password, enabled) VALUES ('gail', '$2a$13$f7Ae/ObDGSyBO7vJ3EtR3eV8vKDd53MotXvkEIlm2kUed4FyD05wi', TRUE);
+INSERT INTO users (username, password, enabled) VALUES ('christian', '$2a$13$clw85Yj43S0.PatAoW/Xp.opCUS9xDP0DdCK5AYQPDsoEPDEjW9pW', TRUE);
 
-INSERT INTO Roles (name) VALUES ('ROLE_ADMIN'),('ROLE_USER'),('ROLE_VISITOR');
+INSERT INTO Roles (name) VALUES ('ROLE_ROOT'),('ROLE_ADMIN'),('ROLE_USER'),('ROLE_VISITOR');
 
+INSERT INTO authorities (username, role) VALUE ('root', 'ROLE_ROOT');
 INSERT INTO authorities (username, role) VALUE ('christian', 'ROLE_ADMIN');
-INSERT INTO authorities (username, role) VALUE ('pj', 'ROLE_USER');
-INSERT INTO authorities (username, role) VALUE ('mike', 'ROLE_VISITOR');
+INSERT INTO authorities (username, role) VALUE ('gail', 'ROLE_ADMIN');
 
 INSERT INTO `acl_sid` (`id`, `principal`, `sid`) VALUES
   (1, 1, 'christian'),
@@ -19,10 +19,9 @@ INSERT INTO `acl_sid` (`id`, `principal`, `sid`) VALUES
 --
 
 INSERT INTO `acl_class` (`id`, `class`) VALUES
-  (1, 'com.sterling.platform.domain.resources.Candidate'),
-  (2, 'com.sterling.platform.domain.resources.Form'),
-  (3, 'com.sterling.platform.domain.resources.Report'),
-  (4, 'com.sterling.platform.domain.security.User');
+  (1, 'org.bongiorno.sdrss.domain.resources.Candidate'),
+  (2, 'org.bongiorno.sdrss.domain.resources.Form'),
+  (3, 'org.bongiorno.sdrss.domain.resources.Report');
 
 --
 -- Dumping data for table `acl_object_identity`
@@ -37,10 +36,7 @@ INSERT INTO `acl_object_identity` (`id`, `object_id_class`, `object_id_identity`
   (6, 2, 3, NULL, 1, 0),
   (7, 3, 1, NULL, 1, 0),
   (8, 3, 2, NULL, 1, 0),
-  (9, 3, 3, NULL, 1, 0),
-  (10, 4, 1, NULL, 1, 0),
-  (11, 4, 2, NULL, 2, 0),
-  (12, 4, 3, NULL, 3, 0);
+  (9, 3, 3, NULL, 1, 0);
 
 --
 -- Dumping data for table `acl_entry`
@@ -75,10 +71,7 @@ INSERT INTO `acl_entry` (`id`, `acl_object_identity`, `ace_order`, `sid`, `mask`
   (38, 8, 4, 2, 2, 1, 1, 1),
   (39, 9, 4, 2, 2, 1, 1, 1),
   (40, 7, 5, 3, 1, 1, 1, 1),
-  (41, 8, 5, 3, 1, 1, 1, 1),
-  (43, 10, 1, 1, 2, 1, 1, 1),
-  (44, 11, 1, 2, 2, 1, 1, 1),
-  (45, 12, 1, 3, 2, 1, 1, 1);
+  (41, 8, 5, 3, 1, 1, 1, 1);
 
 
 --
