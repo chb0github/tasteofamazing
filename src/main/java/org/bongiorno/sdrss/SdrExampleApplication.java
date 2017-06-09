@@ -1,36 +1,30 @@
 package org.bongiorno.sdrss;
 
+import static org.bongiorno.sdrss.domain.security.AclEntry.Permission.READ;
+import static org.bongiorno.sdrss.domain.security.AclEntry.Permission.WRITE;
+
 import lombok.RequiredArgsConstructor;
 import org.bongiorno.sdrss.domain.resources.Candidate;
-import org.bongiorno.sdrss.domain.security.*;
-import org.bongiorno.sdrss.repositories.security.*;
-import org.reflections.Reflections;
+import org.bongiorno.sdrss.domain.security.AclEntry;
+import org.bongiorno.sdrss.domain.security.AclObjectIdentity;
+import org.bongiorno.sdrss.domain.security.AclSid;
+import org.bongiorno.sdrss.repositories.security.AclEntryRepository;
+import org.bongiorno.sdrss.repositories.security.AclObjectIdentityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
 import org.springframework.data.rest.core.annotation.HandleBeforeCreate;
 import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
 import org.springframework.data.rest.core.event.AbstractRepositoryEventListener;
 import org.springframework.data.rest.core.event.ValidatingRepositoryEventListener;
 import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurerAdapter;
 import org.springframework.hateoas.Identifiable;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Validator;
-
-import javax.annotation.PostConstruct;
-import javax.persistence.Entity;
-import java.util.Set;
-
-import static java.util.stream.Collectors.toSet;
-import static org.bongiorno.sdrss.domain.security.AclEntry.Permission.*;
 
 @SpringBootApplication
 @EnableAutoConfiguration
