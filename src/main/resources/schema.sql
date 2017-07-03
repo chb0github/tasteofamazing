@@ -1,28 +1,28 @@
-drop SCHEMA IF EXISTS SDR;
-create SCHEMA IF NOT EXISTS SDR;
-use SDR;
+DROP SCHEMA IF EXISTS SDR;
+CREATE SCHEMA IF NOT EXISTS SDR;
+USE SDR;
 
 CREATE TABLE users (
   username VARCHAR(50) NOT NULL PRIMARY KEY,
   password VARCHAR(60) NOT NULL,
-  enabled BOOLEAN NOT NULL
+  enabled  BOOLEAN     NOT NULL
 );
 CREATE TABLE Roles (
   name VARCHAR(50) NOT NULL PRIMARY KEY
 );
 
 CREATE TABLE authorities (
-  id int PRIMARY KEY NOT NULL AUTO_INCREMENT,
-  username VARCHAR(50) NOT NULL,
-  role VARCHAR(50) NOT NULL,
+  id       INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  username VARCHAR(50)     NOT NULL,
+  role     VARCHAR(50)     NOT NULL,
   FOREIGN KEY (username) REFERENCES users (username),
   FOREIGN KEY (role) REFERENCES Roles (name),
   UNIQUE (username, role)
 );
 
 CREATE TABLE groups (
-  id bigint PRIMARY KEY NOT NULL AUTO_INCREMENT,
-  name VARCHAR(50) NOT NULL
+  id   BIGINT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  name VARCHAR(50)        NOT NULL
 );
 
 CREATE TABLE group_authorities (
@@ -35,7 +35,7 @@ CREATE TABLE group_members (
   id       BIGINT PRIMARY KEY AUTO_INCREMENT,
   username VARCHAR(50) NOT NULL,
   group_id BIGINT      NOT NULL,
-   FOREIGN KEY (group_id) REFERENCES groups (id)
+  FOREIGN KEY (group_id) REFERENCES groups (id)
 );
 
 CREATE TABLE persistent_logins (
@@ -81,8 +81,8 @@ CREATE TABLE acl_entry (
   granting            BOOLEAN            NOT NULL,
   audit_success       BOOLEAN            NOT NULL,
   audit_failure       BOOLEAN            NOT NULL,
-  CONSTRAINT unique_uk_4 UNIQUE (acl_object_identity, ace_order),
-  CONSTRAINT foreign_fk_4 FOREIGN KEY (acl_object_identity)
+  UNIQUE (acl_object_identity, ace_order),
+  FOREIGN KEY (acl_object_identity)
   REFERENCES acl_object_identity (id),
-  CONSTRAINT foreign_fk_5 FOREIGN KEY (sid) REFERENCES acl_sid (id)
+  FOREIGN KEY (sid) REFERENCES acl_sid (id)
 );
