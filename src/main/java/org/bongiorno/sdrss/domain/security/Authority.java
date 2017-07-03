@@ -35,7 +35,7 @@ public class Authority implements GrantedAuthority, Identifiable<Long> {
 
     @Id
     @GeneratedValue
-    private Integer id;
+    private Long id;
 
     private String role;
 

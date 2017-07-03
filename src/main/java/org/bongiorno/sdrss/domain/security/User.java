@@ -15,6 +15,7 @@
  */
 package org.bongiorno.sdrss.domain.security;
 
+import java.util.Set;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -47,7 +48,7 @@ public class User implements UserDetails, Identifiable<String>{
     private Boolean enabled;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
-    private Collection<Authority> authorities;
+    private Set<Authority> authorities;
 
     public User(String username, String password, Boolean enabled, String ... authorities) {
         this.username = username;

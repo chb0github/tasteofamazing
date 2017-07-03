@@ -1,27 +1,28 @@
 package org.bongiorno.sdrss.domain.resources;
 
-import lombok.*;
-
+import java.time.Instant;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
-import java.util.Date;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.ToString;
 
 @Getter
 @EqualsAndHashCode
 @Entity
 @ToString
-public class Form  implements Post {
+public class Form implements Post {
 
 
-    @Id
-    @GeneratedValue
-    private Long id;
+  @Id
+  @GeneratedValue
+  private Long id;
 
-    @NotNull
-    private Date date;
+  @NotNull
+  private Instant date;
 
-    @NotNull
-    private String name;
+  @NotNull
+  private String name;
 }
